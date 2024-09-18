@@ -1,3 +1,4 @@
 .vscode/
-IMS.sln
 api/bin/
+api/obj/
+api/appsettings.Development.json/
