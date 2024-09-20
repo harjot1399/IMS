@@ -16,6 +16,11 @@ namespace api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var products = await _productRepository.GetProductsAsync();
             var productsDto = products.Select(x => x.ToProductDto());
             return Ok(productsDto);
@@ -24,6 +29,11 @@ namespace api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var product = await _productRepository.GetProductByIdAsync(id);
             if (product == null)
             {
@@ -72,6 +82,11 @@ namespace api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteProduct(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             var product = await _productRepository.DeleteProductAsync(id);
             if (product == null)
             {

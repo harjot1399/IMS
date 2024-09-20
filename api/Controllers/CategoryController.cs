@@ -18,6 +18,11 @@ namespace api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             var categories = await _categoryRepository.GetCategoriesAsync();
             var categoriesDTO = categories.Select(category => category.ToCategoryDto());
             return Ok(categoriesDTO);
@@ -26,6 +31,11 @@ namespace api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var category = await _categoryRepository.GetCategoryByIdAsync(id);
             if (category == null)
             {
@@ -38,6 +48,11 @@ namespace api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateCategoryDto createCategoryDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var category = createCategoryDto.ToCategoryFromCreateCategoryDto();
             await _categoryRepository.CreateCategoryAsync(category);
             return CreatedAtAction(nameof(GetCategoryById), new { id = category.Id }, category.ToCategoryDto());
@@ -46,6 +61,11 @@ namespace api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, UpdateCategoryDto updateCategoryDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var updatedCategory = updateCategoryDto.ToCategoryFromUpdateCategoryDto();
             var result = await _categoryRepository.UpdateCategoryAsync(id, updatedCategory);
             if (result == null)
@@ -59,6 +79,11 @@ namespace api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _categoryRepository.DeleteCategoryAsync(id);
             if (result == null)
             {
